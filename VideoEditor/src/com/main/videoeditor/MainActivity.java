@@ -8,9 +8,12 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,10 +27,13 @@ import com.main.videoeditor.thumbnails.Thumb;
 import com.main.videoeditor.thumbnails.Thumbs;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements
+        GestureDetector.OnGestureListener,
+        GestureDetector.OnDoubleTapListener{
 	static final int REQUEST_VIDEO_CAPTURE = 1;
 	static final int REQUEST_VIDEO_CHOOSE = 2;
-    Thumbs thumbs = new Thumbs();
+    private GestureDetectorCompat mDetector;
+    Thumbs thumbs;
 	Activity tt = this;
 	int olo = 0;
     @Override
@@ -37,8 +43,15 @@ public class MainActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+        thumbs = new Thumbs(this);
         addThumbs();
+
+        mDetector = new GestureDetectorCompat(this,this);
+        // Set the gesture detector as the double tap
+        // listener.
+        mDetector.setOnDoubleTapListener(this);
     }
+
 
 
     @Override
@@ -68,96 +81,11 @@ public class MainActivity extends Activity {
             startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
         }
     }
-    
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	olo = 2;
-    	if (requestCode == REQUEST_VIDEO_CAPTURE) {
-    		requestCode = 1;
-    	}
-    	else if(requestCode == REQUEST_VIDEO_CHOOSE) {
- //   		 setContentView(R.layout.main);
-            ((HorizontalScrollView)findViewById(R.id.HorizontalScrollTopMenu)).setVisibility(View.GONE);
-    		    VideoView videoView = (VideoView)findViewById(R.id.videoPlayer);
-    		    MediaController mediaController = new MediaController(this);
-    		    mediaController.setAnchorView(videoView);        
-    		    
-    		    videoView.setMediaController(mediaController);
-    		    videoView.setVideoURI(data.getData());        
-    		    videoView.requestFocus();
 
-    		    videoView.start();
-    	/*	
-    		Uri selectedVideo = data.getData();
-    		MediaPlayer mediaPlayer = new MediaPlayer();
-    		try
-    		{
-    			mediaPlayer.setDataSource(this, selectedVideo);
-    			mediaPlayer.start();
-    			
-    			
-    		}catch(Exception e){
-    			e.getMessage();
-    		}
-    		requestCode = 1;*/
-    	}
-    }
      int t = 0;
     public void addThumbs()
     {
-        thumbs.addThumbs(this);
-/*
-    	String[] STAR = { "*" };
-    	
-        Cursor cursor = managedQuery(MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                , STAR, null, null, null);
-
-        LinearLayout my_menu = (LinearLayout) findViewById(R.id.topMenu);
-        Thumb myImg;// = new ImageView(this);
-       // myImg.setImageResource(R.drawable.ic_launcher);
-        
-        Bitmap bMap;
-        if (cursor != null) 
-        {
-            if (cursor.moveToFirst()) 
-            {
-                do 
-                {
-                    String path = cursor.getString(cursor
-                            .getColumnIndex(MediaStore.Video.Media.DATA));
-                    bMap = ThumbnailUtils.createVideoThumbnail(path,
-                    		MediaStore.Video.Thumbnails.MICRO_KIND);
-                    
-                    myImg = new Thumb(this);
-                    myImg.setImageBitmap(bMap);
-                    myImg.setMoviePath(path);
-                    myImg.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
-                        	Thumb oo = (Thumb) v;
-                        	
-                        	VideoView videoView = (VideoView)findViewById(R.id.videoPlayer);
-                        	
-                        	if(t == 0){
-                        	MediaController mediaController = new MediaController(tt);
-                		    mediaController.setAnchorView(videoView);        
-                		    
-                		    videoView.setMediaController(mediaController);
-                		    t = 1;
-                        	}
-                		    Uri uri = Uri.parse(oo.getMoviePath());
-                            ((HorizontalScrollView)findViewById(R.id.HorizontalScrollTopMenu)).setVisibility(View.GONE);
-                		    	videoView.setVideoURI(uri);
-	                		    videoView.start();
-                		    
-                        }
-                    });
-                    my_menu.addView(myImg);
-                    Log.i("Path",path);
-                }while (cursor.moveToNext());
-
-            }
-         //   cursor.close();
-        }*/
+        thumbs.addThumbs();
     }
     @Override
     public void onResume() {
@@ -187,5 +115,61 @@ public class MainActivity extends Activity {
     	intent.setAction(Intent.ACTION_GET_CONTENT);
     	startActivityForResult(Intent.createChooser(intent, "Select Video"), REQUEST_VIDEO_CHOOSE);
     }
-    
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        this.mDetector.onTouchEvent(event);
+        // Be sure to call the superclass implementation
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public boolean onDown(MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float v, float v2) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float v, float v2) {
+        if (v > 0){ // left
+            thumbs.playPrevious();
+        }
+        else if (v < 0){ //right
+            thumbs.playNext();
+        }
+        return false;
+    }
 }

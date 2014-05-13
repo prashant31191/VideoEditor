@@ -16,14 +16,45 @@ import android.widget.VideoView;
 
 import com.main.videoeditor.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by admin on 2014-05-13.
  */
 public class Thumbs {
     int t = 0;
-    public void addThumbs(final Activity activity)
-    {
+    List<Thumb> thumbsList = new ArrayList<Thumb>();
+    int selectedItemIndex = 0;
+    VideoView videoView;
+    final Activity activity;
+    public Thumbs(Activity act){
+        activity = act;
+        videoView = (VideoView)activity.findViewById(R.id.videoPlayer);
+        createMediaController();
+    }
 
+    private void createMediaController(){
+        MediaController mediaController = new MediaController(activity);
+        mediaController.setAnchorView(videoView);
+
+        videoView.setMediaController(mediaController);
+    }
+    public void playPrevious(){
+        if(selectedItemIndex > 0){
+            thumbsList.get(--selectedItemIndex).startThisVideo();
+        }
+    }
+
+    public void playNext(){
+        if(selectedItemIndex < thumbsList.size() - 1){
+            thumbsList.get(++selectedItemIndex).startThisVideo();
+        }
+    }
+    public void addThumbs()
+    {
+    thumbsList.clear();
+       selectedItemIndex = 0;
         String[] STAR = { "*" };
 
         Cursor cursor = activity.managedQuery(MediaStore.Video.Media.EXTERNAL_CONTENT_URI
@@ -45,29 +76,22 @@ public class Thumbs {
                     bMap = ThumbnailUtils.createVideoThumbnail(path,
                             MediaStore.Video.Thumbnails.MICRO_KIND);
 
-                    myImg = new Thumb(activity.getApplicationContext());
+                    myImg = new Thumb(activity);
                     myImg.setImageBitmap(bMap);
                     myImg.setMoviePath(path);
+                    myImg.setOnClickListener (myImg);
+                    /*
                     myImg.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             Thumb oo = (Thumb) v;
-
-                            VideoView videoView = (VideoView)activity.findViewById(R.id.videoPlayer);
-
-                            if(t == 0){
-                                MediaController mediaController = new MediaController(activity);
-                                mediaController.setAnchorView(videoView);
-
-                                videoView.setMediaController(mediaController);
-                                t = 1;
-                            }
                             Uri uri = Uri.parse(oo.getMoviePath());
                             ((HorizontalScrollView)activity.findViewById(R.id.HorizontalScrollTopMenu)).setVisibility(View.GONE);
                             videoView.setVideoURI(uri);
                             videoView.start();
-
                         }
                     });
+                    */
+                    thumbsList.add(myImg);
                     my_menu.addView(myImg);
                     Log.i("Path", path);
                 }while (cursor.moveToNext());
