@@ -47,12 +47,8 @@ public class MainActivity extends Activity implements
         addThumbs();
 
         mDetector = new GestureDetectorCompat(this,this);
-        // Set the gesture detector as the double tap
-        // listener.
         mDetector.setOnDoubleTapListener(this);
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -65,8 +61,6 @@ public class MainActivity extends Activity implements
         Intent intent = new Intent(this, TrimVideo.class);
         startActivity(intent);
     }
-
-
 
     public void takeVideo(MenuItem item) {
         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
@@ -82,11 +76,11 @@ public class MainActivity extends Activity implements
         }
     }
 
-     int t = 0;
     public void addThumbs()
     {
         thumbs.addThumbs();
     }
+
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
@@ -94,9 +88,11 @@ public class MainActivity extends Activity implements
         my_menu.removeAllViews();
         addThumbs();
     }
+
     public void info(MenuItem item){
         Toast.makeText(this, "Hello World", Toast.LENGTH_LONG).show();
     }
+
     public void setThumbsVisibility(View view)
     {
         HorizontalScrollView o = (HorizontalScrollView) findViewById(R.id.HorizontalScrollTopMenu);
@@ -109,12 +105,12 @@ public class MainActivity extends Activity implements
     }
 
     public void viewVideos(View view) {
-
     	Intent intent = new Intent();
     	intent.setType("video/*");
     	intent.setAction(Intent.ACTION_GET_CONTENT);
     	startActivityForResult(Intent.createChooser(intent, "Select Video"), REQUEST_VIDEO_CHOOSE);
     }
+
     @Override
     public boolean onTouchEvent(MotionEvent event){
         this.mDetector.onTouchEvent(event);

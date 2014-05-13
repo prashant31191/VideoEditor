@@ -1,15 +1,11 @@
 package com.main.videoeditor.thumbnails;
 
 import android.app.Activity;
-import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
-import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.VideoView;
@@ -42,13 +38,13 @@ public class Thumbs {
     }
     public void playPrevious(){
         if(selectedItemIndex > 0){
-            thumbsList.get(--selectedItemIndex).startThisVideo();
+            thumbsList.get(--selectedItemIndex).setVideo();
         }
     }
 
     public void playNext(){
         if(selectedItemIndex < thumbsList.size() - 1){
-            thumbsList.get(++selectedItemIndex).startThisVideo();
+            thumbsList.get(++selectedItemIndex).setVideo();
         }
     }
     public void addThumbs()
@@ -61,9 +57,7 @@ public class Thumbs {
                 , STAR, null, null, null);
 
         LinearLayout my_menu = (LinearLayout)  activity.findViewById(R.id.topMenu);
-        Thumb myImg;// = new ImageView(this);
-        // myImg.setImageResource(R.drawable.ic_launcher);
-
+        Thumb myImg;
         Bitmap bMap;
         if (cursor != null)
         {
@@ -80,24 +74,13 @@ public class Thumbs {
                     myImg.setImageBitmap(bMap);
                     myImg.setMoviePath(path);
                     myImg.setOnClickListener (myImg);
-                    /*
-                    myImg.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
-                            Thumb oo = (Thumb) v;
-                            Uri uri = Uri.parse(oo.getMoviePath());
-                            ((HorizontalScrollView)activity.findViewById(R.id.HorizontalScrollTopMenu)).setVisibility(View.GONE);
-                            videoView.setVideoURI(uri);
-                            videoView.start();
-                        }
-                    });
-                    */
+
                     thumbsList.add(myImg);
                     my_menu.addView(myImg);
                     Log.i("Path", path);
                 }while (cursor.moveToNext());
 
             }
-            //   cursor.close();
         }
     }
 }

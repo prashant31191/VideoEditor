@@ -11,10 +11,11 @@
 		    android:layout_weight="10"
 		    android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
-            android:layout_margin="3dp"
             android:visibility="visible"
             android:fillViewport="false"
-            android:layout_gravity="center_vertical">
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="2dp">
 		
 		    <LinearLayout
 		        android:layout_width="match_parent"
@@ -27,14 +28,21 @@
 		</HorizontalScrollView>
 
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:text="New Button"
-            android:id="@+id/button"
-            android:layout_gravity="center_horizontal"
-            android:onClick="setThumbsVisibility" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/background_dark">
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:text="New Button"
+                android:id="@+id/button"
+                android:layout_gravity="center_horizontal"
+                android:onClick="setThumbsVisibility" />
+        </LinearLayout>
 
         <LinearLayout
 	    android:layout_width="fill_parent"
