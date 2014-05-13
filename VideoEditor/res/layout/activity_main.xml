@@ -1,0 +1,54 @@
+
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:orientation="vertical"
+        android:background="@android:color/darker_gray">
+
+		<HorizontalScrollView
+		    android:id="@+id/HorizontalScrollTopMenu"
+		    android:layout_width="wrap_content"
+		    android:layout_weight="10"
+		    android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_margin="3dp"
+            android:visibility="visible"
+            android:fillViewport="false"
+            android:layout_gravity="center_vertical">
+		
+		    <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:id="@+id/topMenu"
+                android:visibility="visible">
+		    </LinearLayout>
+		    
+		</HorizontalScrollView>
+
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="New Button"
+            android:id="@+id/button"
+            android:layout_gravity="center_horizontal"
+            android:onClick="setThumbsVisibility" />
+
+        <LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="80"
+	    android:orientation="vertical"
+        android:weightSum="1">
+		    
+			<fragment android:name="com.main.videoeditor.VideoPlayer"
+              android:id="@+id/article_fragment"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+                android:layout_weight="0.41" />
+			
+	</LinearLayout>
+	</LinearLayout>
+
