@@ -90,7 +90,7 @@ public class MainActivity extends Activity implements
     }
 
     public void info(MenuItem item){
-        Toast.makeText(this, "Hello World", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, thumbs.selectedThumbInfo(), Toast.LENGTH_LONG).show();
     }
 
     public void setThumbsVisibility(View view)

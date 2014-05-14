@@ -36,6 +36,9 @@ public class Thumbs {
 
         videoView.setMediaController(mediaController);
     }
+    public String selectedThumbInfo(){
+        return thumbsList.get(selectedItemIndex).getMovieInfo();
+    }
     public void playPrevious(){
         if(selectedItemIndex > 0){
             thumbsList.get(--selectedItemIndex).setVideo();
